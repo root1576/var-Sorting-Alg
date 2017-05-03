@@ -142,6 +142,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="all.h" />
+    <ClInclude Include="insertsort.h" />
+    <ClInclude Include="main.h" />
+    <ClInclude Include="mergesort.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="insertsort.c" />
+    <ClCompile Include="main.c" />
+    <ClCompile Include="mergesort.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -3,9 +3,10 @@
 #include <time.h>
 
 #include "insertsort.h"
+#include "mergesort.h"
 #include "main.h"
 
-#undef RNG //if defined array will be generated with random size and filled with random numbers
+#define RNG //if defined array will be generated with random size and filled with random numbers
 
 
 typedef enum {
@@ -34,7 +35,7 @@ void main(void)
 
 	printTable(sort_array, size_array);
 
-	sort(INSERTIONSORT, sort_array, size_array);
+	sort(MERGESORT, sort_array, size_array);
 
 	free(sort_array);
 #else //RNG
@@ -64,7 +65,7 @@ int randomNumArray(int** pointer_array)
 
 	srand((unsigned int)time(&t));//def. RNG seed
 
-	size_of_array = rand() % 256;//def. random size of array // 256 def. maxsize of array
+	size_of_array = 20000;// rand() % 256;//def. random size of array // 256 def. maxsize of array
 	//printf("Size of array: %d", size_of_array);
 
 	*pointer_array = (int*)malloc((size_of_array) * sizeof(int));//allocate memory for array
@@ -89,15 +90,15 @@ void sort(SORTINGALG sortingalg,int* pointer_array, int length)
 			insertSort(pointer_array,length);
 			break;
 		case MERGESORT:
-			printf("\nMERGESORT NOT YET IMPLEMENTED!\n"); //Mergsort implementation in next version!
-			/*printf("\nSorting array with mergesort!\n");
-			mergeSortFast(pointer_array, length);*/
+			//printf("\nMERGESORT NOT YET IMPLEMENTED!\n"); //Mergsort implementation in next version!
+			printf("\nSorting array with mergesort!\n");
+			mergeSortFast(pointer_array, length, 1);
 			break;
 		default:
 			printf("\nDEFAULTSORT ALSO NOT YET IMPLEMENTED!\n");
 			break;
 	}
-	printf("\n\nTime used: %fs\nThis time is not representative, because the printing of the table fakes the result!", ((double)clock() - start_time) / CLOCKS_PER_SEC);
+	printf("\n\nTime used: %fs\nThis time is not representative,\nbecause the printing of the table fakes the result!", ((double)clock() - start_time) / CLOCKS_PER_SEC);
 }
 
 //prints the array \n after 8 numb
