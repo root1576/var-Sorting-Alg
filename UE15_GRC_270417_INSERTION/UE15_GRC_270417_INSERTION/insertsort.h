@@ -1,0 +1,1 @@
+void insertSort(int* array_pointer, int length);
