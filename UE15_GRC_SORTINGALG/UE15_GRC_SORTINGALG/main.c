@@ -6,7 +6,7 @@
 #include "mergesort.h"
 #include "main.h"
 
-#define RNG //if defined array will be generated with random size and filled with random numbers
+#undef RNG //if defined array will be generated with random size and filled with random numbers
 
 
 typedef enum {
@@ -15,6 +15,9 @@ typedef enum {
 	MERGESORTSPAG,
 }SORTINGALG;
 
+int sort_array[] = {
+#include "zrnd_1000000.txt"
+};
 
 //Fct.prototype ***********************************************************************
 void sort(SORTINGALG sortingalg, int* pointer_array, int length);
@@ -22,7 +25,6 @@ void sort(SORTINGALG sortingalg, int* pointer_array, int length);
 #ifdef RNG
 int randomNumArray(int** pointer);
 #endif //RNG
-
 
 void main(void)
 {
@@ -51,11 +53,10 @@ void main(void)
 	free(sort_array);
 #else //RNG
 
-	int sort_array[] = { 28,27,26,25,24,23,22,21,20,19,18,17,16,15,14,13,12,11,1};
 
-	printf("\nUnsorted array:\n");
+	printf("\nUnsorted array: %d\n",sizeof(sort_array)/sizeof(int));
 
-	printTable(sort_array, sizeof(sort_array)/sizeof(int));
+	//printTable(sort_array, sizeof(sort_array)/sizeof(int));
 
 	sort(MERGESORTSPAG, sort_array,sizeof(sort_array)/sizeof(int));
 
@@ -102,7 +103,7 @@ void sort(SORTINGALG sortingalg,int* pointer_array, int length)
 			break;
 		case MERGESORTREC:
 			printf("\nSorting array with mergesort (recursive algorithm)!\n");
-			mergeSortRecursive(pointer_array, length, 1);
+			mergeSortRecursive(pointer_array, length, 0);
 			break;
 		case MERGESORTSPAG:
 			printf("\nSorting array with mergesort (spagetti algorithm)!\n");

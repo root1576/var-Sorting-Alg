@@ -57,8 +57,8 @@ void mergeSortRecursive(int* pointer_array, int array_length,int tablePrint)
 		return;
 	}
 
-	//if (tablePrint == 1)
-		//printTable(pointer_array, array_length);
+	if (tablePrint == 1)
+		printTable(pointer_array, array_length);
 
 	return;
 }
