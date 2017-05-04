@@ -11,7 +11,8 @@
 
 typedef enum {
 	INSERTIONSORT,
-	MERGESORT
+	MERGESORTREC,
+	MERGESORTSPAG,
 }SORTINGALG;
 
 
@@ -29,51 +30,61 @@ void main(void)
 	int* sort_array = NULL;
 	int size_array = randomNumArray(&sort_array);
 
+	//exception if malloc couldn't allocate memory for sorting
+
+	if (sort_array == NULL)
+	{
+		printf("Memory error: Couldn't allocate memory for sorting! (Mergesort)");
+		exit(1);
+	}
+
 	printf("Generate random array: \n\n");
 	printf("\nSize of array: %d\n", size_array);
 	printf("\nUnsorted array:\n");
 
-	printTable(sort_array, size_array);
+	//printTable(sort_array, size_array);
+	//getchar();
+	//sort(MERGESORTREC, sort_array, size_array);
 
-	sort(MERGESORT, sort_array, size_array);
+	sort(MERGESORTSPAG, sort_array, size_array);
 
 	free(sort_array);
 #else //RNG
 
-	int sort_array[] = { 92,4,6,7,252,4,83,5,49,10,134,156,7,29};
+	int sort_array[] = { 28,27,26,25,24,23,22,21,20,19,18,17,16,15,14,13,12,11,1};
 
 	printf("\nUnsorted array:\n");
 
 	printTable(sort_array, sizeof(sort_array)/sizeof(int));
 
-	sort(INSERTIONSORT, sort_array,sizeof(sort_array)/sizeof(int));
+	sort(MERGESORTSPAG, sort_array,sizeof(sort_array)/sizeof(int));
 
 #endif //RNG
 	getchar();
+	return;
 }
 
 
 
 #ifdef RNG
-
 //creates an array with random size and fills it with random numbers
 //returns length of the array and saves random numbers to pointer array
 int randomNumArray(int** pointer_array)
 {
 	int size_of_array;
-	time_t t;
+	time_t t; //to define the seed of the rng
 
 	srand((unsigned int)time(&t));//def. RNG seed
 
-	size_of_array = 20000;// rand() % 256;//def. random size of array // 256 def. maxsize of array
+	size_of_array = 1000000;//rand() % 256;//def. random size of array // 256 def. maxsize of array
 	//printf("Size of array: %d", size_of_array);
 
 	*pointer_array = (int*)malloc((size_of_array) * sizeof(int));//allocate memory for array
 
 	for (int i = 0; i < size_of_array; i++)
-		(*pointer_array)[i] = rand() % 1000;//generate random numbers and store in array
+		(*pointer_array)[i] = rand() % 10000;//generate random numbers and store in array
 
-	return size_of_array;//return size of array
+	return size_of_array;
 }
 #endif // RNG
 
@@ -81,7 +92,7 @@ int randomNumArray(int** pointer_array)
 //actual implemented algorithms: Insertionsort
 void sort(SORTINGALG sortingalg,int* pointer_array, int length)
 {
-	int start_time = clock();
+	int start_time = clock();//saves the starttime
 
 	switch (sortingalg)
 	{
@@ -89,11 +100,14 @@ void sort(SORTINGALG sortingalg,int* pointer_array, int length)
 			printf("\nSorting array with insertionsort!\n");
 			insertSort(pointer_array,length);
 			break;
-		case MERGESORT:
-			//printf("\nMERGESORT NOT YET IMPLEMENTED!\n"); //Mergsort implementation in next version!
-			printf("\nSorting array with mergesort!\n");
-			mergeSortFast(pointer_array, length, 1);
+		case MERGESORTREC:
+			printf("\nSorting array with mergesort (recursive algorithm)!\n");
+			mergeSortRecursive(pointer_array, length, 1);
 			break;
+		case MERGESORTSPAG:
+			printf("\nSorting array with mergesort (spagetti algorithm)!\n");
+			mergeSortSpaghetti(pointer_array, length);
+			break;			
 		default:
 			printf("\nDEFAULTSORT ALSO NOT YET IMPLEMENTED!\n");
 			break;
@@ -101,13 +115,12 @@ void sort(SORTINGALG sortingalg,int* pointer_array, int length)
 	printf("\n\nTime used: %fs\nThis time is not representative,\nbecause the printing of the table fakes the result!", ((double)clock() - start_time) / CLOCKS_PER_SEC);
 }
 
-//prints the array \n after 8 numb
+//prints the array \n after n numb
 void printTable(int* array_pointer, int length)
 {
-
 	for (int i = 0; i < length; i++)
 	{
-		if (i % 8 == 0 && i != 0) // After every 8 numbers breakline
+		if (i % 16 == 0 && i != 0) // After every 8 numbers breakline
 			printf("\n");
 		printf("%4d;", array_pointer[i]);
 	}

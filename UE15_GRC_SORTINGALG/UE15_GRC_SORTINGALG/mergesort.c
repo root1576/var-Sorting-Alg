@@ -4,11 +4,11 @@
 #include "main.h"
 #include "mergesort.h"
 
-//mergeSortFast is the faster version of mergesort
+//mergeSortRecursive is the recursive version of mergesort
 //pointer_array <-- pointer on first element of array
 //array_length <-- real size of array (not n-1)
 //tableprint == 1 if function is supposed to print the array
-void mergeSortFast(int* pointer_array, int array_length,int tablePrint)
+void mergeSortRecursive(int* pointer_array, int array_length,int tablePrint)
 {
 	if (array_length > 2)
 	{
@@ -16,8 +16,8 @@ void mergeSortFast(int* pointer_array, int array_length,int tablePrint)
 		int offset_left = 0, offset_right = 0;
 
 		//recursion (and split array) if array_length is bigger than 2
-		mergeSortFast(pointer_array, array_length / 2 + array_length % 2,0);
-		mergeSortFast(&(pointer_array[array_length / 2 + array_length % 2]), array_length / 2,0);
+		mergeSortRecursive(pointer_array, array_length / 2 + array_length % 2, 0);
+		mergeSortRecursive(&(pointer_array[array_length / 2 + array_length % 2]), array_length / 2, 0);
 
 		//allocate memory for sorting array
 		tmp_pointer_array = malloc((array_length / 2 + array_length % 2)*sizeof(int));//for memory optimaztion after recursion
@@ -29,23 +29,19 @@ void mergeSortFast(int* pointer_array, int array_length,int tablePrint)
 			exit(1);
 		}
 
-		
+		//for (int i = 0; i < array_length / 2 + array_length % 2; i++)//copying half of the array into other array used for sorting -> no element gets overwritten
+				
 
-		for (int i = 0; i < array_length / 2 + array_length % 2; i++)//copying half of the array into other array used for sorting -> no element gets overwritten
-				tmp_pointer_array[i] = pointer_array[i];
-
-		for (int inner_cart_pos = 0; inner_cart_pos < array_length; inner_cart_pos++)
+		for (int sort_pos = 0; sort_pos < array_length; sort_pos++)
 		{
+			//saving data in 2nd array -> no data gets overwritten
+			if (sort_pos < array_length / 2 + array_length % 2)
+				tmp_pointer_array[sort_pos] = pointer_array[sort_pos];
+
 			if (((tmp_pointer_array[offset_left] <= pointer_array[array_length / 2 + array_length % 2 + offset_right]) || offset_right >= array_length / 2) && (offset_left<array_length / 2 + array_length % 2))
-			{
-				pointer_array[inner_cart_pos] = tmp_pointer_array[offset_left];
-				offset_left++;
-			}
+				pointer_array[sort_pos] = tmp_pointer_array[offset_left++];
 			else
-			{
-					pointer_array[inner_cart_pos] = pointer_array[array_length / 2 + array_length % 2+offset_right];
-					offset_right++;
-			}
+				pointer_array[sort_pos] = pointer_array[array_length / 2 + array_length % 2+offset_right++];
 		}
 		free(tmp_pointer_array);
 	}
@@ -57,13 +53,85 @@ void mergeSortFast(int* pointer_array, int array_length,int tablePrint)
 				int tmp = pointer_array[0];
 				pointer_array[0] = pointer_array[1];
 				pointer_array[1] = tmp;
-				return;
 			}
-
 		return;
 	}
 
-	if (tablePrint == 1)
-		printTable(pointer_array, array_length);
+	//if (tablePrint == 1)
+		//printTable(pointer_array, array_length);
+
+	return;
+}
+
+
+
+
+
+
+//*********************************************
+//*********SPAGHETTICODE**INCOMING*************
+//*********************************************
+
+//YOU SHOULDN'T LOOK AT THIS!!!!!
+
+//DON'T!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+//IF YOU LOOK FURTHER IT MAY DAMAGE YOUR MENTAL HEALTH
+
+//YOU HAVE BEEN WARNED
+
+
+void mergeSortSpaghetti(int* pointer_array, int array_length)
+{
+	int* tmp_pointer = NULL;
+	int* sort_this = pointer_array;
+	int* sort_to = malloc(array_length * sizeof(int));
+
+	int offset_left = 0, offset_right = 0;
+
+	for (int cart_size = 2; cart_size/2 <= array_length; cart_size *= 2)
+	{
+		for (int cart_pos = 0; cart_pos < array_length; cart_pos += cart_size)
+		{
+			int cart_size_left, cart_size_right;
+			int remainder = (array_length) % cart_size;
+
+			if (cart_pos + cart_size > array_length && cart_pos != array_length)
+			{
+				if (remainder < cart_size / 2)
+					continue;
+				else
+				{
+					cart_size_left = cart_size / 2;
+					cart_size_right = remainder - cart_size_left;
+				}
+			}
+			else
+			{
+				cart_size_left = cart_size / 2;
+				cart_size_right = cart_size / 2;
+			}
+
+			offset_left = 0;
+			offset_right = 0;
+
+			for (int inner_cart_pos = 0; inner_cart_pos < (cart_size_left+cart_size_right); inner_cart_pos++)
+			{
+				if (((sort_this[cart_pos + offset_left] <= sort_this[cart_pos + cart_size_left + offset_right]) || offset_right >= cart_size_right) && (offset_left < cart_size_left))
+					sort_to[cart_pos + inner_cart_pos] = sort_this[cart_pos + offset_left++];
+				else
+					sort_to[cart_pos + inner_cart_pos] = sort_this[cart_pos + offset_right++ + cart_size_left];
+			}
+				
+		}
+
+
+		//swaping sorting arrays
+		tmp_pointer = sort_this;
+		sort_this = sort_to;
+		sort_to = tmp_pointer;
+	}
+	//printf("Sorted array!\n");
+	//printTable(sort_this, array_length);
 	return;
 }
