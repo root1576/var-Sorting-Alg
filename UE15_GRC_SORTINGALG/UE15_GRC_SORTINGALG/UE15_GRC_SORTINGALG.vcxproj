@@ -142,12 +142,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="all.h" />
+    <ClInclude Include="bubblesort.h" />
     <ClInclude Include="insertsort.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="mergesort.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="bubblesort.c" />
     <ClCompile Include="insertsort.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="mergesort.c" />

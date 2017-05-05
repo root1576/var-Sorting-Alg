@@ -80,7 +80,8 @@ void mergeSortRecursive(int* pointer_array, int array_length,int tablePrint)
 
 //YOU HAVE BEEN WARNED
 
-
+//for speed comparison recursive <-> non recursive
+//shouldnt be used!
 void mergeSortSpaghetti(int* pointer_array, int array_length)
 {
 	int* tmp_pointer = NULL;
