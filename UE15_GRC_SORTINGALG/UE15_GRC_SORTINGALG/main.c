@@ -24,7 +24,6 @@ void sort(SORTINGALG sortingalg, int* pointer_array, int length);
 int randomNumArray(int** pointer);
 #endif //RNG
 
-
 void main(void)
 {
 #ifdef RNG
@@ -47,16 +46,15 @@ void main(void)
 	//getchar();
 	//sort(MERGESORTREC, sort_array, size_array);
 
-	sort(MERGESORTREC, sort_array, size_array);
+	sort(MERGESORTSPAG, sort_array, size_array);
 
 	free(sort_array);
 #else //RNG
+	int sort_array[] = { 92,4,6,7,252,4,83,5,49,10,134,156,7,29 };
 
-	int sort_array[] = { 28,27,26,25,24,23,22,21,20,19,18,17,16,15,14,13,12,11,1};
+	printf("\nUnsorted array: %d\n",sizeof(sort_array)/sizeof(int));
 
-	printf("\nUnsorted array:\n");
-
-	printTable(sort_array, sizeof(sort_array)/sizeof(int));
+	//printTable(sort_array, sizeof(sort_array)/sizeof(int));
 
 	sort(BUBBLESORT, sort_array,sizeof(sort_array)/sizeof(int));
 
@@ -106,7 +104,7 @@ void sort(SORTINGALG sortingalg,int* pointer_array, int length)
 			bubbleSort(pointer_array, length);
 		case MERGESORTREC:
 			printf("\nSorting array with mergesort (recursive algorithm)!\n");
-			mergeSortRecursive(pointer_array, length, 1);
+			mergeSortRecursive(pointer_array, length, 0);
 			break;
 		/*case MERGESORTSPAG:
 			printf("\nSorting array with mergesort (spagetti algorithm)!\n");
