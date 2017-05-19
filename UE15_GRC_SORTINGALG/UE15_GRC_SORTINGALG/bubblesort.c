@@ -1,3 +1,9 @@
+//Autor: Gruber Christof
+//Jahrgang: ECE16
+//mergesort.c
+//implementation of the bubblesort algorithm
+
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -6,6 +12,7 @@
 void bubbleSort(int* pointer_array, int array_length)
 {
 	int array_changed = 0;
+
 	do
 	{
 		array_changed = 0;
@@ -13,9 +20,10 @@ void bubbleSort(int* pointer_array, int array_length)
 		{
 			if (pointer_array[sort_pos] > pointer_array[sort_pos + 1])
 			{
-				int tmp = pointer_array[sort_pos];
+				int tmp = pointer_array[sort_pos];//swap elements
 				pointer_array[sort_pos] = pointer_array[sort_pos + 1];
 				pointer_array[sort_pos + 1] = tmp;
+
 				array_changed++;
 			}
 		}

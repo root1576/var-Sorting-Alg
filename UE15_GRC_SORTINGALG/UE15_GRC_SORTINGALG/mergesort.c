@@ -1,3 +1,8 @@
+//Autor: Gruber Christof
+//Jahrgang: ECE16
+//mergesort.c
+//implementation of the mergesort algorithm
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -66,19 +71,11 @@ void mergeSortRecursive(int* pointer_array, int array_length,int tablePrint)
 
 
 
-
+/*
 
 //*********************************************
-//*********SPAGHETTICODE**INCOMING*************
+//******************SPAGHETTICODE**************
 //*********************************************
-
-//YOU SHOULDN'T LOOK AT THIS!!!!!
-
-//DON'T!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-//IF YOU LOOK FURTHER IT MAY DAMAGE YOUR MENTAL HEALTH
-
-//YOU HAVE BEEN WARNED
 
 //for speed comparison recursive <-> non recursive
 //shouldnt be used!
@@ -135,4 +132,4 @@ void mergeSortSpaghetti(int* pointer_array, int array_length)
 	//printf("Sorted array!\n");
 	//printTable(sort_this, array_length);
 	return;
-}
+}*/

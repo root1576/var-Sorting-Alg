@@ -1,3 +1,9 @@
+//Autor: Gruber Christof
+//Jahrgang: ECE16
+//insertsort.c
+//implementation of the insertionsort algorithm
+
+
 #include <stdio.h>
 #include <stdlib.h>
 

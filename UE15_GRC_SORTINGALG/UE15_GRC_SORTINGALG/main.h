@@ -1,3 +1,7 @@
+//Autor: Gruber Christof
+//Jahrgang: ECE16
+//main.c
+//Execute various sorting alghorithms
 
 //For usage in sorting libary
 
