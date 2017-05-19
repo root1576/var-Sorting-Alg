@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
 
 #include "insertsort.h"
@@ -17,82 +18,31 @@ typedef enum {
 	//MERGESORTSPAG,
 }SORTINGALG;
 
+static const char *SORTINGALGORITHMS[] = { "INSERTSORT","BUBBLESORT","MERGESORTREC" };
+
+
+
 //Fct.prototype ***********************************************************************
 void sort(SORTINGALG sortingalg, int* pointer_array, int length);
-
-#ifdef RNG
-int randomNumArray(int** pointer);
-#endif //RNG
+int checkArray(int* tmp_sorted_array, int* check_array, int array_length);
+void sortTest(void(*fct)(SORTINGALG, int*, int), SORTINGALG sortingalg, int* array_template, int array_length,int* check_array);
 
 void main(void)
 {
-#ifdef RNG
-	int* sort_array = NULL;
-	int size_array = randomNumArray(&sort_array);
-
-	//exception if malloc couldn't allocate memory for sorting
-
-	if (sort_array == NULL)
-	{
-		printf("Memory error: Couldn't allocate memory for sorting! (Mergesort)");
-		exit(1);
-	}
-
-	printf("Generate random array: \n\n");
-	printf("\nSize of array: %d\n", size_array);
-	printf("\nUnsorted array:\n");
-
-	//printTable(sort_array, size_array);
-	//getchar();
-	//sort(MERGESORTREC, sort_array, size_array);
-
-	sort(MERGESORTSPAG, sort_array, size_array);
-
-	free(sort_array);
-#else //RNG
-	int sort_array[] = { 92,4,6,7,252,4,83,5,49,10,134,156,7,29 };
-
-	printf("\nUnsorted array: %d\n",sizeof(sort_array)/sizeof(int));
-
-	//printTable(sort_array, sizeof(sort_array)/sizeof(int));
-
-	sort(BUBBLESORT, sort_array,sizeof(sort_array)/sizeof(int));
-
-#endif //RNG
-	getchar();
-	return;
+	int ARRAY_TEMPLATE[] = {
+#include "zrnd_1000000.txt" 
+	};
+	int* check_array = malloc(sizeof(ARRAY_TEMPLATE));
+	memcpy(check_array, ARRAY_TEMPLATE, sizeof(ARRAY_TEMPLATE));
+	sort(INSERTIONSORT, check_array, sizeof(ARRAY_TEMPLATE) / sizeof(int));
+	
+	sortTest(sort, BUBBLESORT, ARRAY_TEMPLATE, sizeof(ARRAY_TEMPLATE) / sizeof(int), check_array);
 }
-
-
-
-#ifdef RNG
-//creates an array with random size and fills it with random numbers
-//returns length of the array and saves random numbers to pointer array
-int randomNumArray(int** pointer_array)
-{
-	int size_of_array;
-	time_t t; //to define the seed of the rng
-
-	srand((unsigned int)time(&t));//def. RNG seed
-
-	size_of_array = 1000000;//rand() % 256;//def. random size of array // 256 def. maxsize of array
-	//printf("Size of array: %d", size_of_array);
-
-	*pointer_array = (int*)malloc((size_of_array) * sizeof(int));//allocate memory for array
-
-	for (int i = 0; i < size_of_array; i++)
-		(*pointer_array)[i] = rand() % 10000;//generate random numbers and store in array
-
-	return size_of_array;
-}
-#endif // RNG
 
 //Executes and takes the time for all implemented algorithms
-//actual implemented algorithms: Insertionsort
+//actual implemented algorithms: Insertionsort, bubblesort, mergesort
 void sort(SORTINGALG sortingalg,int* pointer_array, int length)
 {
-	int start_time = clock();//saves the starttime
-
 	switch (sortingalg)
 	{
 		case INSERTIONSORT:
@@ -114,7 +64,29 @@ void sort(SORTINGALG sortingalg,int* pointer_array, int length)
 			printf("\nDEFAULTSORT ALSO NOT YET IMPLEMENTED!\n");
 			break;
 	}
-	printf("\n\nTime used: %fs\nThis time is not representative,\nbecause the printing of the table fakes the result!", ((double)clock() - start_time) / CLOCKS_PER_SEC);
+}
+
+void sortTest(void (*fct)(SORTINGALG,int*,int),SORTINGALG sortingalg,int* array_template, int array_length,int* check_array)
+{
+	int* array_to_sort = malloc(array_length * sizeof(int));
+	memcpy(array_to_sort,array_template,array_length*sizeof(int));
+
+	fct(sortingalg, array_to_sort, array_length);
+
+	if (checkArray(array_to_sort, checkArray, array_length) == 0)
+		printf("PASS");
+	else
+		printf("FAIL");
+	return;
+}
+
+//compares tmp_sorted_array with the check_array
+//if arrays are not the same return -1 else 0
+int checkArray(int* tmp_sorted_array, int* check_array, int array_length)
+{
+	for (int pos = 0; pos < array_length; pos++)
+		if (tmp_sorted_array[pos] != check_array[pos]) return -1;
+	return 0;
 }
 
 //prints the array \n after n numb

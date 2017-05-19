@@ -8,7 +8,7 @@
 //pointer_array <-- pointer on first element of array
 //array_length <-- real size of array (not n-1)
 //tableprint == 1 if function is supposed to print the array
-void mergeSortRecursive(int* pointer_array, int array_length,int tablePrint)
+void mergeSortRecursive(int* pointer_array, int array_length)
 {
 	if (array_length > 2)
 	{
@@ -56,10 +56,6 @@ void mergeSortRecursive(int* pointer_array, int array_length,int tablePrint)
 			}
 		return;
 	}
-
-	if (tablePrint == 1)
-		printTable(pointer_array, array_length);
-
 	return;
 }
 
@@ -67,7 +63,7 @@ void mergeSortRecursive(int* pointer_array, int array_length,int tablePrint)
 
 
 
-
+/*
 //*********************************************
 //*********SPAGHETTICODE**INCOMING*************
 //*********************************************
@@ -135,4 +131,4 @@ void mergeSortSpaghetti(int* pointer_array, int array_length)
 	//printf("Sorted array!\n");
 	//printTable(sort_this, array_length);
 	return;
-}
+}*/
