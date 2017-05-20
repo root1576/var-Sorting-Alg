@@ -5,11 +5,11 @@
 
 #include "insertsort.h"
 #include "mergesort.h"
-#include "bubblesort.h";
+#include "bubblesort.h"
 #include "main.h"
 
-#undef RNG //if defined array will be generated with random size and filled with random numbers
-
+//to add sorting algorithm: add sortingalg. in enum SORTINGALG and the name in SORTINGALGORITHMS
+//and in sort() -> switch
 
 typedef enum {
 	INSERTIONSORT,
@@ -18,8 +18,9 @@ typedef enum {
 	//MERGESORTSPAG,
 }SORTINGALG;
 
-static const char *SORTINGALGORITHMS[] = { "INSERTSORT","BUBBLESORT","MERGESORTREC" };
+SORTINGALG alg[] = { INSERTIONSORT, MERGESORTREC, BUBBLESORT , MERGESORTREC };//order after which the algorithms get executed
 
+static const char *SORTINGALGORITHMS[] = { "INSERTSORT","BUBBLESORT","MERGESORTREC" };
 
 
 //Fct.prototype ***********************************************************************
@@ -29,14 +30,19 @@ void sortTest(void(*fct)(SORTINGALG, int*, int), SORTINGALG sortingalg, int* arr
 
 void main(void)
 {
-	int ARRAY_TEMPLATE[] = {
-#include "zrnd_1000000.txt" 
-	};
-	int* check_array = malloc(sizeof(ARRAY_TEMPLATE));
+	int ARRAY_TEMPLATE[] = { 
+		27446,	23805, 15890,6729,24370,15350,15006,31101,24393,3548,19629,12623,24084,19954,18756,1840,4966,7376,13931,26308,16944,32439,
+		24626,11323,5537,21538,16118,2082,22929,16541,4833,31115,4639,29658,22704,9930,13977,2306,31673,22386,5021,28745,26924,19072
+	};	
+
+	int* check_array = malloc(sizeof(ARRAY_TEMPLATE));//creating array to check the following sorting arrays
 	memcpy(check_array, ARRAY_TEMPLATE, sizeof(ARRAY_TEMPLATE));
+
 	sort(INSERTIONSORT, check_array, sizeof(ARRAY_TEMPLATE) / sizeof(int));
 	
-	sortTest(sort, BUBBLESORT, ARRAY_TEMPLATE, sizeof(ARRAY_TEMPLATE) / sizeof(int), check_array);
+	for(int i = 0; i < sizeof(alg)/sizeof(SORTINGALG);i++)
+		sortTest(sort, alg[i], ARRAY_TEMPLATE, sizeof(ARRAY_TEMPLATE) / sizeof(int), check_array);
+	getchar();
 }
 
 //Executes and takes the time for all implemented algorithms
@@ -46,37 +52,44 @@ void sort(SORTINGALG sortingalg,int* pointer_array, int length)
 	switch (sortingalg)
 	{
 		case INSERTIONSORT:
-			printf("\nSorting array with insertionsort!\n");
+			//printf("\nSorting array with insertionsort!\n");
 			insertSort(pointer_array,length);
 			break;
 		case BUBBLESORT:
-			printf("\nSorting array with bubblesort!\n");
+			//printf("\nSorting array with bubblesort!\n");
 			bubbleSort(pointer_array, length);
 		case MERGESORTREC:
-			printf("\nSorting array with mergesort (recursive algorithm)!\n");
+			//printf("\nSorting array with mergesort (recursive algorithm)!\n");
 			mergeSortRecursive(pointer_array, length, 0);
 			break;
-		/*case MERGESORTSPAG:
-			printf("\nSorting array with mergesort (spagetti algorithm)!\n");
-			mergeSortSpaghetti(pointer_array, length);
-			break;*/
 		default:
-			printf("\nDEFAULTSORT ALSO NOT YET IMPLEMENTED!\n");
+			printf("\nError: Sortingalgorithm not yet implemented!\n");
 			break;
 	}
 }
 
+
+//only for testing
 void sortTest(void (*fct)(SORTINGALG,int*,int),SORTINGALG sortingalg,int* array_template, int array_length,int* check_array)
 {
+	int time_start, time_end;
 	int* array_to_sort = malloc(array_length * sizeof(int));
-	memcpy(array_to_sort,array_template,array_length*sizeof(int));
 
+	memcpy(array_to_sort,array_template,array_length*sizeof(int));//copy template
+
+	printf("\nSorting array with the %s algorithm:",SORTINGALGORITHMS[sortingalg]);
+	
+	time_start = clock();//start timer
 	fct(sortingalg, array_to_sort, array_length);
+	time_end = clock();//stop timer
 
-	if (checkArray(array_to_sort, checkArray, array_length) == 0)
-		printf("PASS");
+	printf("\nTime used to sort %d elements: %fs\n", array_length, (time_end - time_start) / (double)CLOCKS_PER_SEC);
+
+	printf("Result: ");
+	if (checkArray(array_to_sort, check_array, array_length) == 0)
+		printf("PASS\n");
 	else
-		printf("FAIL");
+		printf("FAIL\n");
 	return;
 }
 

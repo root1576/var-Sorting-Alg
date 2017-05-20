@@ -20,6 +20,6 @@ void bubbleSort(int* pointer_array, int array_length)
 			}
 		}
 	} while (array_changed != 0);
-	printf("\n\nSorted array: \n");
-	printTable(pointer_array, array_length);
+	//printf("\n\nSorted array: \n");
+	//printTable(pointer_array, array_length);
 }

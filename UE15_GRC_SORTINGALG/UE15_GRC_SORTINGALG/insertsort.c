@@ -16,7 +16,7 @@ void insertSort(int* array_pointer, int length)
 			array_pointer[sort_pos - insert_pos] = tmp_swap;
 		}
 	}
-	printf("\nSorted Array: \n");
-	printTable(array_pointer, length);
+	//printf("\nSorted Array: \n");
+	//printTable(array_pointer, length);
 }
  

@@ -154,7 +154,7 @@
     <ClCompile Include="mergesort.c" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="zrnd_1000000.txt" />
+    <Text Include="milrnd.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

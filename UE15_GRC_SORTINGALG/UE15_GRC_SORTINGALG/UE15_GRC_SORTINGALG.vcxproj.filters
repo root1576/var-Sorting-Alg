@@ -43,8 +43,8 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="zrnd_1000000.txt">
-      <Filter>Header Files</Filter>
+    <Text Include="milrnd.txt">
+      <Filter>Source Files</Filter>
     </Text>
   </ItemGroup>
 </Project>
